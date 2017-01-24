@@ -7,7 +7,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import de.tr7zw.itemnbtapi.NBTItem;
 
 public class Util {
 	
@@ -37,17 +36,6 @@ public class Util {
 		meta.setLore(lore);
 		stack.setItemMeta(meta);
 		return stack;
-	}
-	
-	public static final ItemStack setNBTDouble(ItemStack stack, String key, double value) {
-		NBTItem item = new NBTItem(stack);
-		item.setDouble(key, value);
-		return item.getItem();
-	}
-	
-	public static final double getNBTDouble(ItemStack stack, String key) {
-		NBTItem item = new NBTItem(stack);
-		return item.getDouble(key);
 	}
 	
 	public static final String formatPrice(double price) {
