@@ -1,0 +1,29 @@
+name: BurkeyShop
+main: com.cjburkey.plugin.shop.ShopPlugin
+author: CJ Burkey
+database: false
+prefix: BurkeyShop
+version: 0.0.1
+website: https://www.spigotmc.org/resources/burkeyshop.35272/
+depend: [ Vault ]
+
+permission:
+  burkeyshop.reload:
+    description: Allow reloading of the shop
+    default: false
+  burkeyshop.use:
+    description: Allow usage of /shop
+    default: true
+  burkeyshop.buy:
+    description: Allow buying of items in the GUI
+    default: true
+  burkeyshop.sell:
+    description: Allow selling of items in the GUI
+    default: true
+
+commands:
+  shop:
+    description: Open the shop GUI
+    usage: /<command>
+    permission: burkeyshop.use
+    permission-message: '§4You do not have permission to open the shop'

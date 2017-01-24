@@ -1,0 +1,9 @@
+# BurkeyShop 0.0.1
+# Created by CJ Burkey
+
+langChatPrefix: '&6[BurkeyShop]&r'
+langNotEnoughMoney: '&4&lYou do not have enough money to complete this transaction.'
+langNotEnoughItems: '&4&lYou do not have enough items to complete this transaction.'
+langShopOpen: '&a&lShop Opened.'
+langNoPerm: '&4&lYou do not have permission to use this command.'
+langReloaded: '&2&lShop reloaded!'
