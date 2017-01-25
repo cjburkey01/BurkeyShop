@@ -30,7 +30,8 @@ public class GuiShop implements IInvGuiScreen {
 		items = new InvGuiItem[item.length];
 		for(int i = 0; i < item.length; i ++) {
 			ShopItem currentShopItem = item[i];
-			toAdd[i] = new ItemStack(currentShopItem.getMaterial());
+			toAdd[i] = new ItemStack(currentShopItem.getMaterial(), 1, (byte) item[i].getData());
+			Util.log("Data: " + item[i].getData());
 			
 			List<String> lore = new ArrayList<String>();
 			lore.add("&dBuy: " + Util.formatPrice(currentShopItem.getBuyPrice()));
@@ -42,7 +43,6 @@ public class GuiShop implements IInvGuiScreen {
 				if(type.isLeftClick()) {
 					ShopHandler.buyItem(this.player, currentShopItem.getMaterial(), amt, amt * currentShopItem.getBuyPrice());
 				} else if(type.isRightClick()) {
-					Util.log(type.isShiftClick());
 					ShopHandler.sellItem(this.player, currentShopItem.getMaterial(), amt, amt * currentShopItem.getSellPrice());
 				}
 			});

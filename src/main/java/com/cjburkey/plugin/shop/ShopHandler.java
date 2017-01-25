@@ -23,18 +23,24 @@ public class ShopHandler {
 				while((line = reader.readLine()) != null) {
 					if(!line.startsWith("#")) {
 						String[] split = line.split(";");
-						
 						double buy = 0.0d;
 						double sell = 0.0d;
 						try { buy = Double.parseDouble(split[1].trim()); sell = Double.parseDouble(split[2].trim()); } catch(Exception e) {  }
 						if(split.length == 3) {
-							ShopItem item = new ShopItem(split[0].trim(), buy, sell);
+							int data = 0;
+							String mat = split[0].trim();
+							if(mat.contains(":")) {
+								String[] spl = mat.split(":");
+								mat = spl[0].trim();
+								data = Integer.parseInt(spl[1].trim());
+							}
+							ShopItem item = new ShopItem(mat, data, buy, sell);
 							if(item.init()) items.add(item); else Util.log("&4&lThere was an error while initializing the shop item '" + split[0].trim() + "'.");
 						}
 					}
 				}
 				reader.close();
-			} catch(Exception e) { Util.error(e); }
+			} catch(Exception e) { Util.error(e, "An error occurred while reading your shop file."); }
 		}
 	}
 	

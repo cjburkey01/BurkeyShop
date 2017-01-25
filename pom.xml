@@ -4,7 +4,7 @@
 
   <groupId>com.cjburkey.plugin.shop</groupId>
   <artifactId>ShopPlugin</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
   <packaging>jar</packaging>
 
   <name>ShopPlugin</name>

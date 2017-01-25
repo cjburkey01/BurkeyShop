@@ -18,8 +18,8 @@ public class Util {
 		return ChatColor.translateAlternateColorCodes('&', msg);
 	}
 	
-	public static final void error(Throwable e) {
-		log("&4&lAn error occurred while reading your shop file:");
+	public static final void error(Throwable e, String msg) {
+		log("&4&l" + msg);
 		log("&4&l  " + e.getMessage());
 	}
 	
