@@ -50,7 +50,7 @@ public class ShopCommand implements CommandExecutor {
 							double sell = Double.parseDouble(args[2]);
 							try {
 								FileWriter writer = new FileWriter(IO.getShopFile(), true);
-								writer.write(hand.getType() + ((hand.getDurability() != 0) ? (":" + hand.getDurability()) : "") + ";" + buy + ";" + sell + "\n");
+								writer.write("\n" + hand.getType() + ((hand.getDurability() != 0) ? (":" + hand.getDurability()) : "") + ";" + buy + ";" + sell + "\n");
 								writer.close();
 							} catch(Exception e) {
 								Util.error(e, "An error occurred while adding that item.");
