@@ -46,8 +46,8 @@ public class ShopCommand implements CommandExecutor {
 						Player ply = (Player) sender;
 						ItemStack hand = ply.getInventory().getItemInMainHand();
 						if(hand != null) {
-							double buy = Integer.parseInt(args[1]);
-							double sell = Integer.parseInt(args[2]);
+							double buy = Double.parseDouble(args[1]);
+							double sell = Double.parseDouble(args[2]);
 							try {
 								FileWriter writer = new FileWriter(IO.getShopFile(), true);
 								writer.write(hand.getType() + ((hand.getDurability() != 0) ? (":" + hand.getDurability()) : "") + ";" + buy + ";" + sell + "\n");
