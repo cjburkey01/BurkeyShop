@@ -1,15 +1,15 @@
 package com.cjburkey.plugin.shop.gui;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import com.cjburkey.plugin.shop.Util;
 
 public class InvGuiHandler implements Listener {
 	
 	private IInvGuiScreen current;
 	
-	public void open(Player player, IInvGuiScreen gui) {
+	public void open(IInvGuiScreen gui) {
 		if(gui != null) {
 			this.current = gui;
 			this.current.open();
@@ -25,7 +25,7 @@ public class InvGuiHandler implements Listener {
 	
 	@EventHandler
 	public void clickEvent(InventoryClickEvent e) {
-		if(isGuiOpen()) {
+		if(e.getInventory().getName().equals(Util.invName())) {
 			this.current.click(e);
 		}
 	}

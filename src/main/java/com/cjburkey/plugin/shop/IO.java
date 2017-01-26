@@ -17,7 +17,9 @@ public class IO {
 				add += "# An example is provided:\n";
 				add += "DIRT;1;0.5\n";
 				add += "# Damage-value items and blocks work too:\n";
+				add += "WOOL;5;2.5\n";
 				add += "WOOL:1;5;2.5\n";
+				add += "WOOL:2;5;2.5\n";
 				writer.write(add);
 				writer.close();
 			} catch(Exception e) {

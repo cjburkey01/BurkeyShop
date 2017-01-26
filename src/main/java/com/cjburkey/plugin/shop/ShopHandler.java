@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,6 +14,8 @@ public class ShopHandler {
 	private static final List<ShopItem> items = new ArrayList<ShopItem>();
 	
 	public static final void loadShop() {
+		ShopPlugin.getPlugin().reloadConfig();
+		ShopPlugin.getPlugin().saveConfig();
 		items.clear();
 		if(IO.getShopFile().exists()) {
 			try {
@@ -27,14 +28,7 @@ public class ShopHandler {
 						double sell = 0.0d;
 						try { buy = Double.parseDouble(split[1].trim()); sell = Double.parseDouble(split[2].trim()); } catch(Exception e) {  }
 						if(split.length == 3) {
-							int data = 0;
-							String mat = split[0].trim();
-							if(mat.contains(":")) {
-								String[] spl = mat.split(":");
-								mat = spl[0].trim();
-								data = Integer.parseInt(spl[1].trim());
-							}
-							ShopItem item = new ShopItem(mat, data, buy, sell);
+							ShopItem item = new ShopItem(Util.fromString(split[0]), buy, sell);
 							if(item.init()) items.add(item); else Util.log("&4&lThere was an error while initializing the shop item '" + split[0].trim() + "'.");
 						}
 					}
@@ -44,10 +38,10 @@ public class ShopHandler {
 		}
 	}
 	
-	public static final boolean buyItem(Player player, Material item, int amount, double cost) {
+	public static final boolean buyItem(Player player, ItemStack stack, double cost) {
 		if(ShopPlugin.getEconomy().getBalance(player) >= cost) {
 			ShopPlugin.getEconomy().withdrawPlayer(player, cost);
-			player.getInventory().addItem(new ItemStack(item, amount));
+			player.getInventory().addItem(stack);
 			return true;
 		} else {
 			Util.chat(player, ShopPlugin.getPlugin().getConfig().getString("langNotEnoughMoney"));
@@ -55,16 +49,16 @@ public class ShopHandler {
 		return false;
 	}
 	
-	public static final boolean sellItem(Player player, Material item, int amount, double cost) {
-		HashMap<Integer, ? extends ItemStack> items = player.getInventory().all(item);
+	public static final boolean sellItem(Player player, ItemStack stahck, double cost) {
+		HashMap<Integer, ? extends ItemStack> items = player.getInventory().all(stahck.getType());
 		List<ItemStack> stacks = new ArrayList<ItemStack>();
 		int total = 0;
 		for(Entry<Integer, ? extends ItemStack> entry : items.entrySet()) { ItemStack s = (ItemStack) entry.getValue(); total += s.getAmount(); stacks.add(s); }
-		int amtLeft = amount;
-		if(total >= amount) {
+		int amtLeft = stahck.getAmount();
+		if(total >= stahck.getAmount()) {
 			for(ItemStack stack : stacks) {
 				if(stack.getAmount() >= amtLeft) {
-					stack.setAmount(stack.getAmount() - amount);
+					stack.setAmount(stack.getAmount() - stahck.getAmount());
 					if(stack.getAmount() == 0) { player.getInventory().remove(stack); }
 					amtLeft = 0;
 					ShopPlugin.getEconomy().depositPlayer(player, cost);

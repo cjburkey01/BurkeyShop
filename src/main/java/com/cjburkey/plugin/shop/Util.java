@@ -4,6 +4,7 @@ import java.text.NumberFormat;
 import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -44,6 +45,21 @@ public class Util {
 	
 	public static final void chat(CommandSender to, String msg) {
 		to.sendMessage(color(ShopPlugin.getPlugin().getConfig().getString("langChatPrefix") + " " + msg));
+	}
+	
+	public static final ItemStack fromString(String s) {
+		int data = 0;
+		String mat = s.trim();
+		if(mat.contains(":")) {
+			String[] spl = mat.split(":");
+			mat = spl[0].trim();
+			data = Integer.parseInt(spl[1].trim());
+		}
+		return new ItemStack(Material.getMaterial(mat), 1, (byte) data);
+	}
+	
+	public static final String invName() {
+		return color(ShopPlugin.getPlugin().getConfig().getString("langGuiName"));
 	}
 	
 }

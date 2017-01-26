@@ -8,7 +8,6 @@ public interface IInvGuiScreen {
 	
 	void open();
 	void click(InventoryClickEvent event);
-	InvGuiItem[] getItems();
 	ItemStack atPos(int x, int y);
 	Player getOpener();
 	

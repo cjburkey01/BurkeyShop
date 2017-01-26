@@ -1,9 +1,16 @@
-# BurkeyShop 0.0.2
+# BurkeyShop 0.0.3
 # Created by CJ Burkey
 
+guiNextButton: ARROW
+guiBackButton: BARRIER
 langChatPrefix: '&6[BurkeyShop]&r'
 langNotEnoughMoney: '&4&lYou do not have enough money to complete this transaction.'
 langNotEnoughItems: '&4&lYou do not have enough items to complete this transaction.'
 langShopOpen: '&a&lShop Opened.'
 langNoPerm: '&4&lYou do not have permission to use this command.'
 langReloaded: '&2&lShop reloaded!'
+langGuiName: '&2&lBurkeyShop'
+langNextPage: '&2&lNext Page'
+langBackPage: '&4&lPrevious Page'
+langAddedItem: '&2&lAdded item to the shop.'
+langNoHand: '&4&lThere is no item in your hand.'

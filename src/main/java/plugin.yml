@@ -3,22 +3,16 @@ main: com.cjburkey.plugin.shop.ShopPlugin
 author: CJ Burkey
 database: false
 prefix: BurkeyShop
-version: 0.0.2
+version: 0.0.3
 website: https://www.spigotmc.org/resources/burkeyshop.35272/
-depend: [ Vault ]
+depend: [ "Vault" ]
 
 permission:
-  burkeyshop.reload:
-    description: Allow reloading of the shop
+  burkeyshop.admin:
+    description: Allow reloading and modification of the shop
     default: false
   burkeyshop.use:
     description: Allow usage of /shop
-    default: true
-  burkeyshop.buy:
-    description: Allow buying of items in the GUI
-    default: true
-  burkeyshop.sell:
-    description: Allow selling of items in the GUI
     default: true
 
 commands:
