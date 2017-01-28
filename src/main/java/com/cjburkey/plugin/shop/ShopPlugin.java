@@ -3,22 +3,20 @@ package com.cjburkey.plugin.shop;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.cjburkey.plugin.shop.cmd.ShopCommand;
-import com.cjburkey.plugin.shop.gui.InvGuiHandler;
+import com.cjburkey.plugin.shop.guis.GuiShopHandler;
 import net.milkbowl.vault.economy.Economy;
 
 public class ShopPlugin extends JavaPlugin {
-
-	private static InvGuiHandler guiHandler;
 	
+	public static final String v = "0.0.4";
+
 	private static ShopPlugin plugin;
 	private static Economy econ = null;
 
-	public static final InvGuiHandler getGuiHandler() { return guiHandler; }
 	public static final ShopPlugin getPlugin() { return plugin; }
 	public static final Economy getEconomy() { return econ; }
 	
 	public void onEnable() {
-		guiHandler = new InvGuiHandler();
 		plugin = this;
 		
 		if(setupEconomy()) {
@@ -31,10 +29,10 @@ public class ShopPlugin extends JavaPlugin {
 		
 		this.getConfig().options().copyDefaults(true);
 		this.saveConfig();
-		IO.initShopFile();
+		if(!IO.getShopFile().exists()) ShopHandler.saveShop();
 		
 		this.getCommand("shop").setExecutor(new ShopCommand());
-		this.getServer().getPluginManager().registerEvents(guiHandler, this);
+		this.getServer().getPluginManager().registerEvents(new GuiShopHandler(), this);
 		
 		ShopHandler.loadShop();
 	}

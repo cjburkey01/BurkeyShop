@@ -1,4 +1,4 @@
-# BurkeyShop 0.0.3
+# BurkeyShop 0.0.4
 # Created by CJ Burkey
 
 guiNextButton: ARROW
@@ -13,4 +13,6 @@ langGuiName: '&2&lBurkeyShop'
 langNextPage: '&2&lNext Page'
 langBackPage: '&4&lPrevious Page'
 langAddedItem: '&2&lAdded item to the shop.'
+langRemovedItem: '&2&lRemoved item to the shop.'
 langNoHand: '&4&lThere is no item in your hand.'
+langNoRem: '&4&lCould not remove item from shop.'

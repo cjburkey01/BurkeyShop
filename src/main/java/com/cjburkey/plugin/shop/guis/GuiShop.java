@@ -11,11 +11,12 @@ import com.cjburkey.plugin.shop.ShopHandler;
 import com.cjburkey.plugin.shop.ShopItem;
 import com.cjburkey.plugin.shop.ShopPlugin;
 import com.cjburkey.plugin.shop.Util;
+import com.cjburkey.plugin.shop.gui.GuiHandler;
 import com.cjburkey.plugin.shop.gui.IInvGuiScreen;
 import com.cjburkey.plugin.shop.gui.InvGuiItem;
 
 public class GuiShop implements IInvGuiScreen {
-
+	
 	private final int size = 6;
 	private InvGuiItem[] items;
 	private Player player;
@@ -69,11 +70,13 @@ public class GuiShop implements IInvGuiScreen {
 		Util.nameItemStack(nextStack, ShopPlugin.getPlugin().getConfig().getString("langNextPage"));
 		
 		InvGuiItem back = new InvGuiItem(backStack, (type) -> {
-			ShopPlugin.getGuiHandler().open(new GuiShop(this.player, this.page - 1));
+			GuiHandler.close(this.player);
+			GuiHandler.open(this.player, new GuiShop(this.player, this.page - 1));
 		});
 		
 		InvGuiItem forw = new InvGuiItem(nextStack, (type) -> {
-			ShopPlugin.getGuiHandler().open(new GuiShop(this.player, this.page + 1));
+			GuiHandler.close(this.player);
+			GuiHandler.open(this.player, new GuiShop(this.player, this.page + 1));
 		});
 		
 		items[items.length - 3] = back;

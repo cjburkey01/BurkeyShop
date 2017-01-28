@@ -2,6 +2,7 @@ package com.cjburkey.plugin.shop;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ public class ShopHandler {
 	private static final List<ShopItem> items = new ArrayList<ShopItem>();
 	
 	public static final void loadShop() {
+		long start = System.nanoTime();
 		ShopPlugin.getPlugin().reloadConfig();
 		ShopPlugin.getPlugin().saveConfig();
 		items.clear();
@@ -36,6 +38,49 @@ public class ShopHandler {
 				reader.close();
 			} catch(Exception e) { Util.error(e, "An error occurred while reading your shop file."); }
 		}
+		long end = System.nanoTime();
+		long time = end - start;
+		Util.log("&2&lReloaded shop in " + time + " nanoseconds.");
+	}
+	
+	public static final void saveShop() {
+		IO.getShopFile().delete();
+		try {
+			IO.getShopFile().createNewFile();
+			FileWriter writer = new FileWriter(IO.getShopFile());
+			String add = "# V: " + ShopPlugin.v + "\n\n";
+			add += "# Lines with # at the beginning are not loaded.\n";
+			add += "# Format: ITEM_NAME[:DATA_VALUE];BUY_PRICE;SELL_PRICE\n";
+			add += "# Example: WOOL:2;5;2\n";
+			add += "# Example: STICK;5;2\n\n";
+			for(ShopItem item : items) {
+				add += item.getStack().getType() + ((item.getStack().getDurability() != 0) ? (":" + item.getStack().getDurability()) : "") + ";" + item.getBuyPrice() + ";" + item.getSellPrice() + "\n";
+			}
+			writer.write(add);
+			writer.close();
+		} catch(Exception e) {
+			Util.error(e, "Couldn't create default shop file.");
+		}
+	}
+	
+	public static final void addItem(ShopItem item) {
+		loadShop();
+		items.add(item);
+		saveShop();
+	}
+	
+	public static final boolean removeItem(ItemStack stack) {
+		loadShop();
+		for(ShopItem item : items) {
+			if(item.getStack().getType().equals(stack.getType())) {
+				if(item.getStack().getDurability() == stack.getDurability()) {
+					items.remove(item);
+					saveShop();
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	public static final boolean buyItem(Player player, ItemStack stack, double cost) {
