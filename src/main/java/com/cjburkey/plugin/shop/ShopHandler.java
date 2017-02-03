@@ -12,13 +12,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class ShopHandler {
 	
-	private static final List<ShopItem> items = new ArrayList<ShopItem>();
+	private static final List<ShopItem> shopItems = new ArrayList<ShopItem>();
 	
 	public static final void loadShop() {
 		long start = System.nanoTime();
 		ShopPlugin.getPlugin().reloadConfig();
 		ShopPlugin.getPlugin().saveConfig();
-		items.clear();
+		shopItems.clear();
 		if(IO.getShopFile().exists()) {
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(IO.getShopFile()));
@@ -31,7 +31,7 @@ public class ShopHandler {
 						try { buy = Double.parseDouble(split[1].trim()); sell = Double.parseDouble(split[2].trim()); } catch(Exception e) {  }
 						if(split.length == 3) {
 							ShopItem item = new ShopItem(Util.fromString(split[0]), buy, sell);
-							if(item.init()) items.add(item); else Util.log("&4&lThere was an error while initializing the shop item '" + split[0].trim() + "'.");
+							if(item.init()) shopItems.add(item); else Util.log("&4&lThere was an error while initializing the shop item '" + split[0].trim() + "'.");
 						}
 					}
 				}
@@ -53,7 +53,7 @@ public class ShopHandler {
 			add += "# Format: ITEM_NAME[:DATA_VALUE];BUY_PRICE;SELL_PRICE\n";
 			add += "# Example: WOOL:2;5;2\n";
 			add += "# Example: STICK;5;2\n\n";
-			for(ShopItem item : items) {
+			for(ShopItem item : shopItems) {
 				add += item.getStack().getType() + ((item.getStack().getDurability() != 0) ? (":" + item.getStack().getDurability()) : "") + ";" + item.getBuyPrice() + ";" + item.getSellPrice() + "\n";
 			}
 			writer.write(add);
@@ -65,16 +65,16 @@ public class ShopHandler {
 	
 	public static final void addItem(ShopItem item) {
 		loadShop();
-		items.add(item);
+		shopItems.add(item);
 		saveShop();
 	}
 	
 	public static final boolean removeItem(ItemStack stack) {
 		loadShop();
-		for(ShopItem item : items) {
+		for(ShopItem item : shopItems) {
 			if(item.getStack().getType().equals(stack.getType())) {
 				if(item.getStack().getDurability() == stack.getDurability()) {
-					items.remove(item);
+					shopItems.remove(item);
 					saveShop();
 					return true;
 				}
@@ -96,15 +96,21 @@ public class ShopHandler {
 	
 	public static final boolean sellItem(Player player, ItemStack stahck, double cost) {
 		HashMap<Integer, ? extends ItemStack> items = player.getInventory().all(stahck.getType());
-		for(int i = 0; i < items.size(); i ++) {
+		HashMap<Integer, ItemStack> backs = new HashMap<Integer, ItemStack>();
+		/*for(int i = 0; i < items.size(); i ++) {
 			ItemStack tmp = items.get(i);
-			if(tmp.getDurability() != stahck.getDurability()) {
+			if(tmp != null && tmp.getDurability() != stahck.getDurability()) {
 				items.remove(i);
+			}
+		}*/
+		for(Entry<Integer, ? extends ItemStack> tmp : items.entrySet()) {
+			if(tmp != null && tmp.getValue().getDurability() == stahck.getDurability()) {
+				backs.put(tmp.getKey(), tmp.getValue());
 			}
 		}
 		List<ItemStack> stacks = new ArrayList<ItemStack>();
 		int total = 0;
-		for(Entry<Integer, ? extends ItemStack> entry : items.entrySet()) { ItemStack s = (ItemStack) entry.getValue(); total += s.getAmount(); stacks.add(s); }
+		for(Entry<Integer, ? extends ItemStack> entry : backs.entrySet()) { ItemStack s = (ItemStack) entry.getValue(); total += s.getAmount(); stacks.add(s); }
 		int amtLeft = stahck.getAmount();
 		if(total >= stahck.getAmount()) {
 			for(ItemStack stack : stacks) {
@@ -126,7 +132,7 @@ public class ShopHandler {
 	}
 	
 	public static final ShopItem[] getShopItems() {
-		return items.toArray(new ShopItem[items.size()]);
+		return shopItems.toArray(new ShopItem[shopItems.size()]);
 	}
 	
 }
