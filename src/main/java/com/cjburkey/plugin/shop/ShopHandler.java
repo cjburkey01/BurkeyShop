@@ -96,6 +96,12 @@ public class ShopHandler {
 	
 	public static final boolean sellItem(Player player, ItemStack stahck, double cost) {
 		HashMap<Integer, ? extends ItemStack> items = player.getInventory().all(stahck.getType());
+		for(int i = 0; i < items.size(); i ++) {
+			ItemStack tmp = items.get(i);
+			if(tmp.getDurability() != stahck.getDurability()) {
+				items.remove(i);
+			}
+		}
 		List<ItemStack> stacks = new ArrayList<ItemStack>();
 		int total = 0;
 		for(Entry<Integer, ? extends ItemStack> entry : items.entrySet()) { ItemStack s = (ItemStack) entry.getValue(); total += s.getAmount(); stacks.add(s); }

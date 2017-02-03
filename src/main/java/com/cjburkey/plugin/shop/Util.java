@@ -32,10 +32,12 @@ public class Util {
 	}
 	
 	public static final ItemStack loreItemStack(ItemStack stack, List<String> lore) {
-		ItemMeta meta = stack.getItemMeta();
-		for(int i = 0; i < lore.size(); i ++) { lore.set(i, color(lore.get(i))); }
-		meta.setLore(lore);
-		stack.setItemMeta(meta);
+		if(stack != null) {
+			ItemMeta meta = stack.getItemMeta();
+			for(int i = 0; i < lore.size(); i ++) { lore.set(i, color(lore.get(i))); }
+			meta.setLore(lore);
+			stack.setItemMeta(meta);
+		}
 		return stack;
 	}
 	

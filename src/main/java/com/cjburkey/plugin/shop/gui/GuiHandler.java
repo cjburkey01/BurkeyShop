@@ -9,10 +9,8 @@ public class GuiHandler {
 	private static final HashMap<Player, GuiShop> shops = new HashMap<Player, GuiShop>();
 	
 	public static final void open(Player player, GuiShop shop) {
-		if(!isOpen(player)) {
-			shops.put(player, shop);
-			shop.open();
-		}
+		shops.put(player, shop);
+		shop.open();
 	}
 	
 	public static final void close(Player player) {

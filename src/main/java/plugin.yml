@@ -3,7 +3,7 @@ main: com.cjburkey.plugin.shop.ShopPlugin
 author: CJ Burkey
 database: false
 prefix: BurkeyShop
-version: 0.0.4
+version: 0.0.5
 website: https://www.spigotmc.org/resources/burkeyshop.35272/
 depend: [ "Vault" ]
 

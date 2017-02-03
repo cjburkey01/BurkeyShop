@@ -8,7 +8,7 @@ import net.milkbowl.vault.economy.Economy;
 
 public class ShopPlugin extends JavaPlugin {
 	
-	public static final String v = "0.0.4";
+	public static final String v = "0.0.5";
 
 	private static ShopPlugin plugin;
 	private static Economy econ = null;
@@ -35,10 +35,6 @@ public class ShopPlugin extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new GuiShopHandler(), this);
 		
 		ShopHandler.loadShop();
-	}
-	
-	public void onDisable() {
-		
 	}
 	
 	private boolean setupEconomy() {
