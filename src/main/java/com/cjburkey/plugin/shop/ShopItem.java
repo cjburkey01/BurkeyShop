@@ -11,6 +11,7 @@ public class ShopItem {
 	
 	public ShopItem(ItemStack stack, double buyPrice, double sellPrice) {
 		this.stack = stack;
+		this.stack.setAmount(1);
 		if(this.stack != null) {
 			this.buy = buyPrice;
 			this.sell = sellPrice;

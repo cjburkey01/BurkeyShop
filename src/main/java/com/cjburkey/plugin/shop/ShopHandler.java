@@ -86,9 +86,8 @@ public class ShopHandler {
 			ShopPlugin.getEconomy().withdrawPlayer(player, cost);
 			player.getInventory().addItem(stack);
 			return true;
-		} else {
-			Util.chat(player, ShopPlugin.getPlugin().getConfig().getString("langNotEnoughMoney"));
 		}
+		Util.chat(player, ShopPlugin.getPlugin().getConfig().getString("langNotEnoughMoney"));
 		return false;
 	}
 	
@@ -98,6 +97,7 @@ public class ShopHandler {
 			ShopPlugin.getEconomy().depositPlayer(player, cost);
 			return true;
 		}
+		Util.chat(player, ShopPlugin.getPlugin().getConfig().getString("langNotEnoughItems"));
 		return false;
 	}
 	
