@@ -16,6 +16,11 @@ import com.cjburkey.plugin.shop.guis.GuiShop;
 public class ShopCommand implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String lb, String[] args) {
+		/*if(sender instanceof Player) {
+			player((Player) sender);
+		} else {
+			console(sender);
+		}*/
 		if(args.length == 0) {
 			if(sender instanceof Player && sender.hasPermission("burkeyshop.use")) {
 				Player player = (Player) sender;
@@ -40,16 +45,21 @@ public class ShopCommand implements CommandExecutor {
 					return true;
 				}
 			} else if(args[0].equalsIgnoreCase("remove")) {
-				Player ply = (Player) sender;
-				ItemStack hand = ply.getInventory().getItemInMainHand();
-				if(hand != null && hand.getType() != null && !hand.getType().equals(Material.AIR)) {
-					if(ShopHandler.removeItem(hand)) {
-						Util.chat(sender, ShopPlugin.getPlugin().getConfig().getString("langRemovedItem"));
-						return true;
-					} else {
-						Util.chat(sender, ShopPlugin.getPlugin().getConfig().getString("langNoRem"));
-						return true;
+				if(sender.hasPermission("burkshop.admin")) {
+					Player ply = (Player) sender;
+					ItemStack hand = ply.getInventory().getItemInMainHand();
+					if(hand != null && hand.getType() != null && !hand.getType().equals(Material.AIR)) {
+						if(ShopHandler.removeItem(hand)) {
+							Util.chat(sender, ShopPlugin.getPlugin().getConfig().getString("langRemovedItem"));
+							return true;
+						} else {
+							Util.chat(sender, ShopPlugin.getPlugin().getConfig().getString("langNoRem"));
+							return true;
+						}
 					}
+				} else {
+					Util.chat(sender, ShopPlugin.getPlugin().getConfig().getString("langNoPerm"));
+					return true;
 				}
 			}
 		} else if(args.length == 3) {
@@ -86,5 +96,13 @@ public class ShopCommand implements CommandExecutor {
 		sender.sendMessage(Util.color("&4&l  /shop remove"));
 		return true;
 	}
+	
+	/*private void player(Player player) {
+		
+	}
+	
+	private void console(CommandSender sender) {
+		
+	}*/
 	
 }

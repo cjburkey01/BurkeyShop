@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -95,38 +93,10 @@ public class ShopHandler {
 	}
 	
 	public static final boolean sellItem(Player player, ItemStack stahck, double cost) {
-		HashMap<Integer, ? extends ItemStack> items = player.getInventory().all(stahck.getType());
-		HashMap<Integer, ItemStack> backs = new HashMap<Integer, ItemStack>();
-		/*for(int i = 0; i < items.size(); i ++) {
-			ItemStack tmp = items.get(i);
-			if(tmp != null && tmp.getDurability() != stahck.getDurability()) {
-				items.remove(i);
-			}
-		}*/
-		for(Entry<Integer, ? extends ItemStack> tmp : items.entrySet()) {
-			if(tmp != null && tmp.getValue().getDurability() == stahck.getDurability()) {
-				backs.put(tmp.getKey(), tmp.getValue());
-			}
-		}
-		List<ItemStack> stacks = new ArrayList<ItemStack>();
-		int total = 0;
-		for(Entry<Integer, ? extends ItemStack> entry : backs.entrySet()) { ItemStack s = (ItemStack) entry.getValue(); total += s.getAmount(); stacks.add(s); }
-		int amtLeft = stahck.getAmount();
-		if(total >= stahck.getAmount()) {
-			for(ItemStack stack : stacks) {
-				if(stack.getAmount() >= amtLeft) {
-					stack.setAmount(stack.getAmount() - stahck.getAmount());
-					if(stack.getAmount() == 0) { player.getInventory().remove(stack); }
-					amtLeft = 0;
-					ShopPlugin.getEconomy().depositPlayer(player, cost);
-					return true;
-				} else {
-					amtLeft -= stack.getAmount();
-					player.getInventory().remove(stack);
-				}
-			}
-		} else {
-			Util.chat(player, ShopPlugin.getPlugin().getConfig().getString("langNotEnoughItems"));
+		if(player.getInventory().containsAtLeast(stahck, stahck.getAmount())) {
+			player.getInventory().removeItem(stahck);
+			ShopPlugin.getEconomy().depositPlayer(player, cost);
+			return true;
 		}
 		return false;
 	}
